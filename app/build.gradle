@@ -54,4 +54,6 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
+
+    implementation group: 'com.adamratzman', name: 'spotify-api-kotlin-core', version: '3.2.14'
 }

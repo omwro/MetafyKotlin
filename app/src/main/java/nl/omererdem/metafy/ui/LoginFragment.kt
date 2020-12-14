@@ -5,8 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_login.*
+import nl.omererdem.metafy.*
 import nl.omererdem.metafy.R
 
 /**
@@ -22,12 +22,8 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initView()
-    }
-
-    private fun initView() {
         btnLogin.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_libraryFragment)
+            (activity as MainActivity).openSpotifyAuthenticator()
         }
     }
 }
