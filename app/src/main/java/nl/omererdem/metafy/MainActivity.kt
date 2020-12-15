@@ -12,15 +12,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import nl.omererdem.metafy.spotify.SpotifyAuthenticator
 import nl.omererdem.metafy.spotify.SpotifyService
-import nl.omererdem.metafy.ui.LibraryFragment
-import nl.omererdem.metafy.ui.PreferenceFragment
-import nl.omererdem.metafy.ui.SearchFragment
 
 var spotifyService: SpotifyService? = null
+lateinit var navController: NavController
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var navController: NavController
     private lateinit var bottomNavigation: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,7 +53,7 @@ class MainActivity : AppCompatActivity() {
             if (destination.id in arrayListOf(R.id.libraryFragment)) {
                 fab.show()
                 fab.setOnClickListener {
-
+                    navController.navigate(R.id.playlistFragment)
                 }
             } else {
                 fab.hide()

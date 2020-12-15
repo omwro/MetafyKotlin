@@ -1,16 +1,17 @@
 package nl.omererdem.metafy.utils
 
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.adamratzman.spotify.models.SimplePlaylist
-import com.adamratzman.spotify.models.Track
 import kotlinx.android.synthetic.main.item_playlist.view.*
 import nl.omererdem.metafy.R
-import nl.omererdem.metafy.spotifyService
-import kotlin.math.floor
+import nl.omererdem.metafy.navController
 
 class PlaylistAdapter(private val playlists: ArrayList<SimplePlaylist>) :
     RecyclerView.Adapter<PlaylistAdapter.ViewHolder>() {
@@ -19,6 +20,9 @@ class PlaylistAdapter(private val playlists: ArrayList<SimplePlaylist>) :
             itemView.tvItemTitle.text = playlist.name
             itemView.tvItemAmount.text =
                 itemView.resources.getString(R.string.amount_songs, playlist.tracks.total)
+            itemView.setOnClickListener {
+                navController.navigate(R.id.playlistFragment, bundleOf("playlistId" to playlist.id))
+            }
         }
     }
 

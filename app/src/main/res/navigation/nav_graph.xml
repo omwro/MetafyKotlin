@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_libraryFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_libraryFragment_to_playlistFragment"
+            app:destination="@id/playlistFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -55,11 +58,11 @@
         android:label="fragment_playlist"
         tools:layout="@layout/fragment_playlist" >
         <action
-            android:id="@+id/action_playlistFragment_to_libraryFragment"
-            app:destination="@id/libraryFragment" />
-        <action
             android:id="@+id/action_playlistFragment_to_songFragment"
             app:destination="@id/songFragment" />
+        <argument
+            android:name="playlistId"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/songFragment"

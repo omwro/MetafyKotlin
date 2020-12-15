@@ -18,6 +18,10 @@ class SpotifyService(token: String) {
         return api.playlists.getClientPlaylists().getAllItems().complete() as List<SimplePlaylist>
     }
 
+    fun getUserPlaylist(playlistId: String): SimplePlaylist {
+        return api.playlists.getClientPlaylist(playlistId).complete() as SimplePlaylist
+    }
+
     fun getPlaylistTracks(playlistId: String): List<PlaylistTrack> {
         return api.playlists.getPlaylistTracks(playlistId).getAllItems().complete() as List<PlaylistTrack>
     }
