@@ -22,4 +22,55 @@
             android:id="@+id/action_loginFragment_to_libraryFragment"
             app:destination="@id/libraryFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="nl.omererdem.metafy.ui.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_songFragment"
+            app:destination="@id/songFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/preferenceFragment"
+        android:name="nl.omererdem.metafy.ui.PreferenceFragment"
+        android:label="fragment_preference"
+        tools:layout="@layout/fragment_preference" >
+    </fragment>
+    <fragment
+        android:id="@+id/createPlaylistFragment"
+        android:name="nl.omererdem.metafy.ui.CreatePlaylistFragment"
+        android:label="fragment_create_playlist"
+        tools:layout="@layout/fragment_create_playlist" >
+        <action
+            android:id="@+id/action_createPlaylistFragment_to_libraryFragment"
+            app:destination="@id/libraryFragment" />
+        <action
+            android:id="@+id/action_createPlaylistFragment_to_playlistFragment"
+            app:destination="@id/playlistFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/playlistFragment"
+        android:name="nl.omererdem.metafy.ui.PlaylistFragment"
+        android:label="fragment_playlist"
+        tools:layout="@layout/fragment_playlist" >
+        <action
+            android:id="@+id/action_playlistFragment_to_libraryFragment"
+            app:destination="@id/libraryFragment" />
+        <action
+            android:id="@+id/action_playlistFragment_to_songFragment"
+            app:destination="@id/songFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/songFragment"
+        android:name="nl.omererdem.metafy.ui.SongFragment"
+        android:label="fragment_song"
+        tools:layout="@layout/fragment_song" >
+        <action
+            android:id="@+id/action_songFragment_to_playlistFragment"
+            app:destination="@id/playlistFragment" />
+        <action
+            android:id="@+id/action_songFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+    </fragment>
 </navigation>

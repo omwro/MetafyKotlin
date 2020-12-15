@@ -8,4 +8,6 @@
     <string name="library_title">Your Playlists</string>
     <string name="placeholder">Placeholder</string>
     <string name="amount_songs">%1$d Songs</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

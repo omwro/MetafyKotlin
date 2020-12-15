@@ -2,20 +2,26 @@ package nl.omererdem.metafy
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import nl.omererdem.metafy.spotify.SpotifyAuthenticator
 import nl.omererdem.metafy.spotify.SpotifyService
+import nl.omererdem.metafy.ui.LibraryFragment
+import nl.omererdem.metafy.ui.PreferenceFragment
+import nl.omererdem.metafy.ui.SearchFragment
 
 var spotifyService: SpotifyService? = null
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
+    private lateinit var bottomNavigation: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,13 +45,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun onInit() {
         navController = findNavController(R.id.nav_host_fragment)
-        fabToggler()
+        bottomNavigation = findViewById(R.id.bottom_navigation)
+        bottomNavigationHandler()
+        viewElementToggler()
     }
 
-    // Hide the FAB if the add fragment is the destination fragment
-    private fun fabToggler() {
-        findNavController(R.id.nav_host_fragment).addOnDestinationChangedListener {
-                _, destination, _ ->
+    private fun viewElementToggler() {
+        findNavController(R.id.nav_host_fragment).addOnDestinationChangedListener { _, destination, _ ->
+            // Visibility for the FAB
             if (destination.id in arrayListOf(R.id.libraryFragment)) {
                 fab.show()
                 fab.setOnClickListener {
@@ -54,7 +61,36 @@ class MainActivity : AppCompatActivity() {
             } else {
                 fab.hide()
             }
+
+            // Visibility for the bottom navigation bar
+            if (destination.id in arrayListOf(R.id.loginFragment)) {
+                bottomNavigation.visibility = View.GONE
+            } else {
+                bottomNavigation.visibility = View.VISIBLE
+            }
         }
+    }
+
+    private fun bottomNavigationHandler() {
+        val navigationItemSelectedListener =
+            BottomNavigationView.OnNavigationItemSelectedListener { item ->
+                when (item.itemId) {
+                    R.id.navigation_library -> {
+                        navController.navigate(R.id.libraryFragment)
+                        return@OnNavigationItemSelectedListener true
+                    }
+                    R.id.navigation_search -> {
+                        navController.navigate(R.id.searchFragment)
+                        return@OnNavigationItemSelectedListener true
+                    }
+                    R.id.navigation_preference -> {
+                        navController.navigate(R.id.preferenceFragment)
+                        return@OnNavigationItemSelectedListener true
+                    }
+                }
+                false
+            }
+        bottomNavigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener)
     }
 
     fun openSpotifyAuthenticator() {
