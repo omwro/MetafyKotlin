@@ -10,6 +10,7 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
+import nl.omererdem.metafy.model.TagViewModel
 import nl.omererdem.metafy.spotify.SpotifyAuthenticator
 import nl.omererdem.metafy.spotify.SpotifyService
 

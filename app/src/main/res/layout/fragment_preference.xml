@@ -47,6 +47,7 @@
                 android:layout_weight="1" />
 
             <ImageButton
+                android:id="@+id/btnAddTag"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_gravity="center"
@@ -59,128 +60,6 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvTagsPreference"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/tvTagName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:background="@drawable/tag_flexbox_background"
-                android:paddingHorizontal="10dp"
-                android:paddingVertical="5dp" />
-        </androidx.recyclerview.widget.RecyclerView>
-        <!--        <com.google.android.flexbox.FlexboxLayout-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            app:flexDirection="row"-->
-        <!--            app:alignItems="center"-->
-        <!--            app:flexWrap="wrap">-->
-        <!--            <TextView-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_margin="5dp"-->
-        <!--                android:paddingVertical="5dp"-->
-        <!--                android:paddingHorizontal="10dp"-->
-        <!--                android:background="@drawable/tag_flexbox_background"-->
-        <!--                android:text="Android">-->
-        <!--            </TextView>-->
-
-        <!--            <TextView-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_margin="5dp"-->
-        <!--                android:padding="5dp"-->
-        <!--                android:background="@drawable/tag_flexbox_background"-->
-        <!--                android:text="iOS"/>-->
-
-        <!--            <TextView-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_margin="5dp"-->
-        <!--                android:padding="5dp"-->
-        <!--                android:background="@drawable/tag_flexbox_background"-->
-        <!--                android:text="Windows"/>-->
-
-        <!--            <TextView-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_margin="5dp"-->
-        <!--                android:padding="5dp"-->
-        <!--                android:background="@drawable/tag_flexbox_background"-->
-        <!--                android:text="Linux"/>-->
-
-        <!--            <TextView-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_margin="5dp"-->
-        <!--                android:padding="5dp"-->
-        <!--                android:background="@drawable/tag_flexbox_background"-->
-        <!--                android:text="Unix"/>-->
-
-        <!--            <TextView-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_margin="5dp"-->
-        <!--                android:padding="5dp"-->
-        <!--                android:background="@drawable/tag_flexbox_background"-->
-        <!--                android:text="MaxOS"/>-->
-
-        <!--            <TextView-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_margin="5dp"-->
-        <!--                android:padding="5dp"-->
-        <!--                android:background="@drawable/tag_flexbox_background"-->
-        <!--                android:text="Java"/>-->
-
-        <!--            <TextView-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_margin="5dp"-->
-        <!--                android:padding="5dp"-->
-        <!--                android:background="@drawable/tag_flexbox_background"-->
-        <!--                android:text="C++"/>-->
-
-        <!--            <TextView-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_margin="5dp"-->
-        <!--                android:padding="5dp"-->
-        <!--                android:background="@drawable/tag_flexbox_background"-->
-        <!--                android:text="Python"/>-->
-
-        <!--            <TextView-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_margin="5dp"-->
-        <!--                android:padding="5dp"-->
-        <!--                android:background="@drawable/tag_flexbox_background"-->
-        <!--                android:text="Kotlin"/>-->
-
-        <!--            <TextView-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_margin="5dp"-->
-        <!--                android:padding="5dp"-->
-        <!--                android:background="@drawable/tag_flexbox_background"-->
-        <!--                android:text="Hadoop"/>-->
-
-        <!--            <TextView-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_margin="5dp"-->
-        <!--                android:padding="5dp"-->
-        <!--                android:background="@drawable/tag_flexbox_background"-->
-        <!--                android:text="Solr"/>-->
-
-        <!--            <TextView-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_margin="5dp"-->
-        <!--                android:padding="5dp"-->
-        <!--                android:background="@drawable/tag_flexbox_background"-->
-        <!--                android:text="Lucene"/>-->
-        <!--        </com.google.android.flexbox.FlexboxLayout>-->
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </FrameLayout>
