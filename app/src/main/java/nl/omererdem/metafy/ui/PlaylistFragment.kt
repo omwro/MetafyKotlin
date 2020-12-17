@@ -58,6 +58,5 @@ class PlaylistFragment : Fragment() {
         songs.clear()
         songs.addAll(spotifyService?.getPlaylistTracks(playlistId.toString()) as ArrayList<PlaylistTrack>)
         songAdapter.notifyDataSetChanged()
-        Log.e("Songs", songs.size.toString())
     }
 }

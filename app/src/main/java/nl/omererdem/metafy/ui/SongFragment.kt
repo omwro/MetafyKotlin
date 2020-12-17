@@ -1,60 +1,158 @@
 package nl.omererdem.metafy.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.adamratzman.spotify.models.SimpleArtist
+import com.google.android.flexbox.AlignItems
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
+import kotlinx.android.synthetic.main.fragment_preference.*
+import kotlinx.android.synthetic.main.fragment_song.*
 import nl.omererdem.metafy.R
+import nl.omererdem.metafy.model.*
+import nl.omererdem.metafy.navController
+import nl.omererdem.metafy.spotifyService
+import nl.omererdem.metafy.utils.TagAdapter
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [SongFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class SongFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var song: Song
+    private lateinit var songId: String
+    private var defaultTags = arrayListOf<Tag>()
+    private var songTags: ArrayList<Tag>? = arrayListOf()
+    private val songTagAdapter = TagAdapter(songTags)
+    private val tagViewModel: TagViewModel by viewModels()
+    private val songViewModel: SongViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_song, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SongFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SongFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        arguments?.let {
+            if (it.getString("songId") == null) {
+                navController.popBackStack()
+                return
+            } else {
+                songId = it.getString("songId")!!
             }
+        }
+        initView()
+        getSpotifySong()
+        getLocalSong()
+        getDefaultTags()
+    }
+
+    private fun initView() {
+        val flexboxLayoutManager = FlexboxLayoutManager(context)
+        flexboxLayoutManager.flexDirection = FlexDirection.ROW
+        flexboxLayoutManager.alignItems = AlignItems.CENTER
+        flexboxLayoutManager.flexWrap = FlexWrap.WRAP
+        rvTagsSong.layoutManager = flexboxLayoutManager
+        rvTagsSong.adapter = songTagAdapter
+        deleteTag().attachToRecyclerView(rvTagsSong)
+    }
+
+    private fun getSpotifySong() {
+        val song = spotifyService?.getSong(songId)
+        tvSongName.text = song?.name
+        tvSongArtists.text = getArtistsString(song?.artists)
+        tvSongDuration.text =
+            song?.durationMs?.let { SongDuration.createFromMilliseconds(it).longString() }
+    }
+
+    private fun getArtistsString(artists: List<SimpleArtist>?): String {
+        var string = ""
+        if (artists != null) {
+            for (artist in artists) {
+                if (string.isNotBlank()) {
+                    string += ", "
+                }
+                string += artist.name
+            }
+        }
+        return string
+    }
+
+    private fun getLocalSong() {
+        songViewModel.getAllSongs().observe(viewLifecycleOwner, { savedSongs ->
+            Log.e("SAVED SONGS", savedSongs.toString())
+        })
+
+        songViewModel.getSongById(songId).observe(viewLifecycleOwner, { localSong ->
+            if (localSong != null) {
+                song = localSong
+                songTags?.clear()
+                song.tags?.let { songTags?.addAll(it) }
+                songTags?.sortBy { it.name }
+                songTagAdapter.notifyDataSetChanged()
+            } else {
+                song = Song(songId, null)
+                Log.e("NEW SONG", song.toString())
+                songViewModel.insertSong(song)
+            }
+            Log.e("SONG", song.toString())
+        })
+    }
+
+    private fun getDefaultTags() {
+        tagViewModel.tags.observe(viewLifecycleOwner, { savedDefaultTags ->
+            defaultTags = savedDefaultTags as ArrayList<Tag>
+            menuTags.setAdapter(
+                ArrayAdapter(
+                    requireContext(),
+                    R.layout.item_spinner,
+                    defaultTags
+                )
+            )
+            menuTags.onItemClickListener =
+                AdapterView.OnItemClickListener { parent, _, position, _ ->
+                    saveTag(parent?.getItemAtPosition(position) as Tag)
+                }
+        })
+    }
+
+    private fun saveTag(tag: Tag) {
+        if (song.tags == null) {
+            song.tags = arrayListOf(tag)
+            songTags = arrayListOf(tag)
+        } else {
+            song.tags?.add(tag)
+            songTags?.add(tag)
+        }
+        songViewModel.updateSong(song)
+        Log.e("SONG AFTER SAVE", song.toString())
+    }
+
+    private fun deleteTag(): ItemTouchHelper {
+        val callback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                song.tags?.remove(songTags?.get(viewHolder.adapterPosition))
+                songViewModel.updateSong(song)
+            }
+        }
+        return ItemTouchHelper(callback)
     }
 }

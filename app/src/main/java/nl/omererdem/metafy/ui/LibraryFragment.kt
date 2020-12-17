@@ -47,6 +47,5 @@ class LibraryFragment : Fragment() {
         playlists.clear()
         playlists.addAll(spotifyService?.getUserPlaylists() as ArrayList<SimplePlaylist>)
         playlistAdapter.notifyDataSetChanged()
-        Log.e("Playlists", playlists.size.toString())
     }
 }

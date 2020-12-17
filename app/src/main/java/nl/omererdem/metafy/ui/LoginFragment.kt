@@ -9,9 +9,6 @@ import kotlinx.android.synthetic.main.fragment_login.*
 import nl.omererdem.metafy.*
 import nl.omererdem.metafy.R
 
-/**
- * A simple [Fragment] subclass as the default destination in the navigation.
- */
 class LoginFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -22,8 +19,9 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val activity = (activity as MainActivity)
         btnLogin.setOnClickListener {
-            (activity as MainActivity).openSpotifyAuthenticator()
+            activity.openSpotifyAuthenticator()
         }
     }
 }

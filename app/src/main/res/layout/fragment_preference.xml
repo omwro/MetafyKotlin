@@ -17,14 +17,13 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16sp"
             android:gravity="center"
-            android:text="@string/library_title"
+            android:text="@string/preference"
             android:textSize="28sp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16sp"
-            android:background="@drawable/bottomborder"
             android:text="@string/add_tags"
             android:textSize="20sp"
             android:textStyle="bold" />

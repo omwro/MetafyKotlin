@@ -75,5 +75,8 @@
         <action
             android:id="@+id/action_songFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
+        <argument
+            android:name="songId"
+            app:argType="string" />
     </fragment>
 </navigation>

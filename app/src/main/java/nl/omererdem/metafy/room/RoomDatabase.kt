@@ -2,12 +2,17 @@ package nl.omererdem.metafy.room
 
 import android.content.Context
 import androidx.room.*
+import nl.omererdem.metafy.model.Song
+import nl.omererdem.metafy.model.SongDao
 import nl.omererdem.metafy.model.Tag
 import nl.omererdem.metafy.model.TagDao
+import nl.omererdem.metafy.utils.TagsConverter
 
-@Database(entities = [Tag::class], version = 1, exportSchema = false)
+@Database(entities = [Tag::class, Song::class], version = 1, exportSchema = false)
+@TypeConverters(TagsConverter::class)
 abstract class RoomDatabase: androidx.room.RoomDatabase() {
     abstract fun tagDao(): TagDao
+    abstract fun songDao(): SongDao
 
     companion object {
         private const val DATABASE_NAME = "METAFY_DATABASE"

@@ -13,4 +13,6 @@
     <string name="add_tags">Add Tags</string>
     <string name="add">Add:</string>
     <string name="addbtn">addbtn</string>
+    <string name="preference">Preference</string>
+    <string name="tags">Tags</string>
 </resources>

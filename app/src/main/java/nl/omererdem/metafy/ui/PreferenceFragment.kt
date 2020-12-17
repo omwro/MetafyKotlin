@@ -20,7 +20,7 @@ import nl.omererdem.metafy.model.TagViewModel
 import nl.omererdem.metafy.utils.TagAdapter
 
 class PreferenceFragment : Fragment() {
-    val tags = arrayListOf<Tag>()
+    val tags: ArrayList<Tag> = arrayListOf()
     val tagAdapter = TagAdapter(tags)
     val tagViewModel: TagViewModel by viewModels()
     override fun onCreateView(
@@ -54,7 +54,7 @@ class PreferenceFragment : Fragment() {
             savedTags ->
             tags.clear()
             tags.addAll(savedTags)
-            tags.sortBy { it.name }
+            tags.sortBy { it?.name }
             tagAdapter.notifyDataSetChanged()
             Log.e("SAVED TAGS", savedTags.toString())
         })
@@ -80,7 +80,7 @@ class PreferenceFragment : Fragment() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
-                tagViewModel.deleteTag(tags[position])
+                tags[position]?.let { tagViewModel.deleteTag(it) }
             }
         }
         return ItemTouchHelper(callback)
