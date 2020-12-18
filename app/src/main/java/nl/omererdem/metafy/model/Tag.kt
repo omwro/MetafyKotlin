@@ -13,4 +13,8 @@ class Tag(
     override fun toString(): String {
         return "Tag(name='$name', id=$id)"
     }
+
+    fun equals(other: Tag): Boolean {
+        return this.id == other.id
+    }
 }

@@ -1,7 +1,6 @@
 package nl.omererdem.metafy.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,12 +8,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.adamratzman.spotify.models.PlaylistTrack
-import com.adamratzman.spotify.models.SimplePlaylist
 import kotlinx.android.synthetic.main.fragment_playlist.*
 import nl.omererdem.metafy.R
 import nl.omererdem.metafy.navController
 import nl.omererdem.metafy.spotifyService
-import nl.omererdem.metafy.utils.SongAdapter
+import nl.omererdem.metafy.utils.SpotifySongAdapter
 import java.util.ArrayList
 
 class PlaylistFragment : Fragment() {
@@ -22,7 +20,7 @@ class PlaylistFragment : Fragment() {
 
     private var songs = arrayListOf<PlaylistTrack>()
 
-    private val songAdapter = SongAdapter(songs)
+    private val songAdapter = SpotifySongAdapter(songs)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

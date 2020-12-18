@@ -8,6 +8,9 @@ interface SongDao {
     @Query("SELECT * FROM songTable")
     fun getAllSong(): LiveData<List<Song>>
 
+    @Query("SELECT * FROM songTable")
+    fun getAllSongOnce(): List<Song>
+
     @Query("SELECT * FROM songTable WHERE songId = :songId")
     fun getSongById(songId: String): LiveData<Song>
 

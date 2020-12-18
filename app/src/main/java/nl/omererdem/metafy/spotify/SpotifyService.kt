@@ -1,6 +1,7 @@
 package nl.omererdem.metafy.spotify
 
 import com.adamratzman.spotify.SpotifyClientApi
+import com.adamratzman.spotify.models.Playlist
 import com.adamratzman.spotify.models.PlaylistTrack
 import com.adamratzman.spotify.models.SimplePlaylist
 import com.adamratzman.spotify.models.Track
@@ -28,5 +29,16 @@ class SpotifyService(token: String) {
 
     fun getSong(songId: String): Track {
         return api.tracks.getTrack(songId).complete() as Track
+    }
+
+    fun createPlaylist(name: String, songIdStrings: String): SimplePlaylist? {
+//        val playlist = api.playlists.createClientPlaylist(
+//            name,
+//            "Playlist created by MetaFy",
+//            false
+//        ).complete()
+        val playlist: SimplePlaylist? = api.playlists.getClientPlaylist("554D71ve3fC1P2gl1t2u8i").complete()
+        api.playlists.addTracksToClientPlaylist(playlist?.id.toString(), songIdStrings).complete()
+        return playlist
     }
 }

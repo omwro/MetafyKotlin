@@ -5,19 +5,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.RecyclerView
-import com.adamratzman.spotify.models.PlaylistTrack
-import com.adamratzman.spotify.models.Track
 import kotlinx.android.synthetic.main.item_song.view.*
 import nl.omererdem.metafy.R
+import nl.omererdem.metafy.model.Song
 import nl.omererdem.metafy.navController
 
-class SongAdapter(private val songs: ArrayList<PlaylistTrack>) :
-    RecyclerView.Adapter<SongAdapter.ViewHolder>() {
+class LocalSongAdapter(private val songs: ArrayList<Song>) :
+    RecyclerView.Adapter<LocalSongAdapter.ViewHolder>() {
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun databind(tempSong: PlaylistTrack) {
-            val song: Track = tempSong.track as Track
+        fun databind(song: Song) {
             itemView.tvItemTitle.text = song.name
-            itemView.tvItemArtist.text = song.artists.firstOrNull()?.name
+            itemView.tvItemArtist.text = song.artists.firstOrNull()
             itemView.setOnClickListener {
                 navController.navigate(R.id.songFragment, bundleOf("songId" to song.id))
             }

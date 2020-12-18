@@ -15,4 +15,6 @@
     <string name="addbtn">addbtn</string>
     <string name="preference">Preference</string>
     <string name="tags">Tags</string>
+    <string name="createplaylist">Create Playlist</string>
+    <string name="preview_playlist">Preview Playlist:</string>
 </resources>

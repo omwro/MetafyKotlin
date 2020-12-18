@@ -11,6 +11,9 @@ interface TagDao {
     @Query("SELECT * FROM tagTable")
     fun getAllTags(): LiveData<List<Tag>>
 
+    @Query("SELECT * FROM tagTable WHERE name = :name")
+    fun getTagByName(name: String): Tag?
+
     @Insert
     fun insertTag(tag: Tag)
 

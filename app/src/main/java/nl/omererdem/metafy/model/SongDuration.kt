@@ -2,18 +2,25 @@ package nl.omererdem.metafy.model
 
 import kotlin.math.floor
 
+private const val HOUR_FROM_MILLISECONDS = 3600000.0
+private const val MINUTE_FROM_MILLISECONDS = 60000.0
+private const val SECOND_FROM_MILLISECONDS = 1000.0
 
 class SongDuration(
-    val hour: Int,
-    val minute: Int,
-    val second: Int,
-    val millisecond: Int
+    private val hour: Int,
+    private val minute: Int,
+    private val second: Int,
+    private val millisecond: Int
 ) {
-    companion object {
-        private const val HOUR_FROM_MILLISECONDS = 3600000.0
-        private const val MINUTE_FROM_MILLISECONDS = 60000.0
-        private const val SECOND_FROM_MILLISECONDS = 1000.0
+    fun getTotalMilliseconds(): Int {
+        var ms = millisecond
+        ms += (second * SECOND_FROM_MILLISECONDS).toInt()
+        ms += (minute * MINUTE_FROM_MILLISECONDS).toInt()
+        ms += (hour * HOUR_FROM_MILLISECONDS).toInt()
+        return ms
+    }
 
+    companion object {
         fun createFromMilliseconds(milliseconds: Int): SongDuration {
             var remainingMilliseconds = milliseconds
             val hours = floor(remainingMilliseconds / HOUR_FROM_MILLISECONDS).toInt()
@@ -58,5 +65,9 @@ class SongDuration(
             string += "${this.second} seconds"
         }
         return string
+    }
+
+    override fun toString(): String {
+        return "SongDuration(hour=$hour, minute=$minute, second=$second, millisecond=$millisecond)"
     }
 }

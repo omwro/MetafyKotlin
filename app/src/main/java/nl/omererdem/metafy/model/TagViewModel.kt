@@ -8,11 +8,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import nl.omererdem.metafy.room.TagRepository
 
-class TagViewModel(application: Application): AndroidViewModel(application) {
+class TagViewModel(application: Application) : AndroidViewModel(application) {
     private val ioScope = CoroutineScope(Dispatchers.IO)
     private val repository = TagRepository(application.applicationContext)
 
     val tags: LiveData<List<Tag>> = repository.getAllTags()
+
+    fun getTagByName(name: String): Tag? {
+        return repository.getTagByName(name)
+    }
 
     fun insertTag(tag: Tag) {
         ioScope.launch { repository.insertTag(tag) }

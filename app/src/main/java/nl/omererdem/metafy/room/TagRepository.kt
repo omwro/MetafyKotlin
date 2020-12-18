@@ -17,6 +17,10 @@ class TagRepository(context: Context) {
         return tagDao.getAllTags()
     }
 
+    fun getTagByName(name: String): Tag? {
+        return tagDao.getTagByName(name)
+    }
+
     fun insertTag(tag: Tag) {
         tagDao.insertTag(tag)
     }

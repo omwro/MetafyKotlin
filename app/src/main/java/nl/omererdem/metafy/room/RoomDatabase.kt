@@ -6,11 +6,11 @@ import nl.omererdem.metafy.model.Song
 import nl.omererdem.metafy.model.SongDao
 import nl.omererdem.metafy.model.Tag
 import nl.omererdem.metafy.model.TagDao
-import nl.omererdem.metafy.utils.TagsConverter
+import nl.omererdem.metafy.utils.PropertyConverter
 
 @Database(entities = [Tag::class, Song::class], version = 1, exportSchema = false)
-@TypeConverters(TagsConverter::class)
-abstract class RoomDatabase: androidx.room.RoomDatabase() {
+@TypeConverters(PropertyConverter::class)
+abstract class RoomDatabase : androidx.room.RoomDatabase() {
     abstract fun tagDao(): TagDao
     abstract fun songDao(): SongDao
 

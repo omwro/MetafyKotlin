@@ -10,14 +10,13 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.adamratzman.spotify.models.SimpleArtist
+import com.adamratzman.spotify.models.Track
 import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
-import kotlinx.android.synthetic.main.fragment_preference.*
 import kotlinx.android.synthetic.main.fragment_song.*
 import nl.omererdem.metafy.R
 import nl.omererdem.metafy.model.*
@@ -52,7 +51,6 @@ class SongFragment : Fragment() {
             }
         }
         initView()
-        getSpotifySong()
         getLocalSong()
         getDefaultTags()
     }
@@ -67,32 +65,7 @@ class SongFragment : Fragment() {
         deleteTag().attachToRecyclerView(rvTagsSong)
     }
 
-    private fun getSpotifySong() {
-        val song = spotifyService?.getSong(songId)
-        tvSongName.text = song?.name
-        tvSongArtists.text = getArtistsString(song?.artists)
-        tvSongDuration.text =
-            song?.durationMs?.let { SongDuration.createFromMilliseconds(it).longString() }
-    }
-
-    private fun getArtistsString(artists: List<SimpleArtist>?): String {
-        var string = ""
-        if (artists != null) {
-            for (artist in artists) {
-                if (string.isNotBlank()) {
-                    string += ", "
-                }
-                string += artist.name
-            }
-        }
-        return string
-    }
-
     private fun getLocalSong() {
-        songViewModel.getAllSongs().observe(viewLifecycleOwner, { savedSongs ->
-            Log.e("SAVED SONGS", savedSongs.toString())
-        })
-
         songViewModel.getSongById(songId).observe(viewLifecycleOwner, { localSong ->
             if (localSong != null) {
                 song = localSong
@@ -100,13 +73,48 @@ class SongFragment : Fragment() {
                 song.tags?.let { songTags?.addAll(it) }
                 songTags?.sortBy { it.name }
                 songTagAdapter.notifyDataSetChanged()
+                Log.e("SONG", song.toString())
             } else {
-                song = Song(songId, null)
-                Log.e("NEW SONG", song.toString())
-                songViewModel.insertSong(song)
+                val spotifySong: Track? = spotifyService?.getSong(songId)
+                if (spotifySong != null) {
+                    song = Song(
+                        songId,
+                        spotifySong.name,
+                        getSpotifyArtistsList(spotifySong.artists),
+                        SongDuration.createFromMilliseconds(spotifySong.durationMs),
+                        null
+                    )
+                    songViewModel.insertSong(song)
+                    Log.e("NEW SONG", song.toString())
+                } else {
+                    navController.popBackStack()
+                }
             }
-            Log.e("SONG", song.toString())
+            tvSongName.text = song.name
+            tvSongArtists.text = getArtistsString(song.artists)
+            tvSongDuration.text = song.duration.longString()
         })
+    }
+
+    private fun getSpotifyArtistsList(artists: List<SimpleArtist>?): ArrayList<String> {
+        val list: ArrayList<String> = arrayListOf()
+        if (artists != null) {
+            for (artist in artists) {
+                list.add(artist.name)
+            }
+        }
+        return list
+    }
+
+    private fun getArtistsString(artists: ArrayList<String>): String {
+        var string = ""
+        for (artist in artists) {
+            if (string.isNotBlank()) {
+                string += ", "
+            }
+            string += artist
+        }
+        return string
     }
 
     private fun getDefaultTags() {

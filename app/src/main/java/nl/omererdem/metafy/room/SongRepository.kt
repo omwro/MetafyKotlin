@@ -4,8 +4,6 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import nl.omererdem.metafy.model.Song
 import nl.omererdem.metafy.model.SongDao
-import nl.omererdem.metafy.model.Tag
-import nl.omererdem.metafy.model.TagDao
 
 class SongRepository(context: Context) {
     private var songDao: SongDao
@@ -17,6 +15,10 @@ class SongRepository(context: Context) {
 
     fun getAllSongs(): LiveData<List<Song>> {
         return songDao.getAllSong()
+    }
+
+    fun getAllSongsOnce(): List<Song> {
+        return songDao.getAllSongOnce()
     }
 
     fun getSongById(songId: String): LiveData<Song> {

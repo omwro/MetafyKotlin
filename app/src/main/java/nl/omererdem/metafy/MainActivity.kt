@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
             if (destination.id in arrayListOf(R.id.libraryFragment)) {
                 fab.show()
                 fab.setOnClickListener {
-                    navController.navigate(R.id.playlistFragment)
+                    navController.navigate(R.id.createPlaylistFragment)
                 }
             } else {
                 fab.hide()
