@@ -13,7 +13,6 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.adamratzman.spotify.models.Playlist
-import com.adamratzman.spotify.models.SimplePlaylist
 import kotlinx.android.synthetic.main.fragment_create_playlist.*
 import kotlinx.coroutines.runBlocking
 import nl.omererdem.metafy.R
@@ -100,7 +99,7 @@ class CreatePlaylistFragment : Fragment() {
 
     private fun createPlaylist(localSongs: List<Song>) {
         val songIdStrings = getSongIdStringFromList(localSongs)
-        val playlist: SimplePlaylist? =
+        val playlist: Playlist? =
             spotifyService?.createPlaylist(etPlaylistName.text.toString(), songIdStrings)
         if (playlist != null) {
             Log.e("NEW PLAYLIST", playlist.toString())
@@ -108,24 +107,11 @@ class CreatePlaylistFragment : Fragment() {
         }
     }
 
-    private fun getSongIdStringFromList(songs: List<Song>): String {
-        val IDENTIFIER = "spotify:track:"
-//        val list: ArrayList<String> = arrayListOf()
-//        for (song in songs) {
-//            list.add(song.songId)
-//        }
-//        return list
-        var string = ""
-        if (songs.size > 1) {
-//            string += "uris="
-        }
+    private fun getSongIdStringFromList(songs: List<Song>): ArrayList<String> {
+        val list: ArrayList<String> = arrayListOf()
         for (song in songs) {
-            if (string.contains(IDENTIFIER)) {
-                string += ","
-            }
-            string += IDENTIFIER+song.songId
+            list.add(song.songId)
         }
-        Log.e("songidstring", string)
-        return string
+        return list
     }
 }

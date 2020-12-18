@@ -31,14 +31,13 @@ class SpotifyService(token: String) {
         return api.tracks.getTrack(songId).complete() as Track
     }
 
-    fun createPlaylist(name: String, songIdStrings: String): SimplePlaylist? {
-//        val playlist = api.playlists.createClientPlaylist(
-//            name,
-//            "Playlist created by MetaFy",
-//            false
-//        ).complete()
-        val playlist: SimplePlaylist? = api.playlists.getClientPlaylist("554D71ve3fC1P2gl1t2u8i").complete()
-        api.playlists.addTracksToClientPlaylist(playlist?.id.toString(), songIdStrings).complete()
+    fun createPlaylist(name: String, songIdStrings: List<String>): Playlist {
+        val playlist = api.playlists.createClientPlaylist(
+            name,
+            "Playlist created by MetaFy",
+            false
+        ).complete()
+        api.playlists.addTracksToClientPlaylist(playlist.id, *songIdStrings.toTypedArray()).complete()
         return playlist
     }
 }
