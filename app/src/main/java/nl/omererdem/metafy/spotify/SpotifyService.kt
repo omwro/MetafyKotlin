@@ -1,10 +1,8 @@
 package nl.omererdem.metafy.spotify
 
 import com.adamratzman.spotify.SpotifyClientApi
-import com.adamratzman.spotify.models.Playlist
-import com.adamratzman.spotify.models.PlaylistTrack
-import com.adamratzman.spotify.models.SimplePlaylist
-import com.adamratzman.spotify.models.Track
+import com.adamratzman.spotify.endpoints.public.SearchApi
+import com.adamratzman.spotify.models.*
 import com.adamratzman.spotify.spotifyClientPkceApi
 
 class SpotifyService(token: String) {
@@ -39,5 +37,9 @@ class SpotifyService(token: String) {
         ).complete()
         api.playlists.addTracksToClientPlaylist(playlist.id, *songIdStrings.toTypedArray()).complete()
         return playlist
+    }
+
+    fun getSearch(keyword: String): List<Track>? {
+        return api.search.search(keyword, SearchApi.SearchType.TRACK).complete().tracks?.items
     }
 }

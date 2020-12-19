@@ -17,4 +17,5 @@
     <string name="tags">Tags</string>
     <string name="createplaylist">Create Playlist</string>
     <string name="preview_playlist">Preview Playlist:</string>
+    <string name="search">Search</string>
 </resources>
