@@ -28,7 +28,7 @@ class SongFragment : Fragment() {
     private lateinit var song: Song
     private lateinit var songId: String
     private var defaultTags = arrayListOf<Tag>()
-    private var songTags: ArrayList<Tag>? = arrayListOf()
+    private var songTags: ArrayList<Tag> = arrayListOf()
     private val songTagAdapter = TagAdapter(songTags)
     private val tagViewModel: TagViewModel by viewModels()
     private val songViewModel: SongViewModel by viewModels()
@@ -69,9 +69,9 @@ class SongFragment : Fragment() {
         songViewModel.getSongById(songId).observe(viewLifecycleOwner, { localSong ->
             if (localSong != null) {
                 song = localSong
-                songTags?.clear()
-                song.tags?.let { songTags?.addAll(it) }
-                songTags?.sortBy { it.name }
+                songTags.clear()
+                song.tags?.let { songTags.addAll(it) }
+                songTags.sortBy { it.name }
                 songTagAdapter.notifyDataSetChanged()
                 Log.e("SONG", song.toString())
             } else {
@@ -135,13 +135,10 @@ class SongFragment : Fragment() {
     }
 
     private fun saveTag(tag: Tag) {
-        if (song.tags == null) {
-            song.tags = arrayListOf(tag)
-            songTags = arrayListOf(tag)
-        } else {
-            song.tags?.add(tag)
-            songTags?.add(tag)
-        }
+        if (songTags.any { songTag -> songTag.equals(tag)}) return
+        if (song.tags == null) song.tags = arrayListOf(tag)
+        else song.tags?.add(tag)
+        songTags.add(tag)
         songViewModel.updateSong(song)
         Log.e("SONG AFTER SAVE", song.toString())
     }
@@ -157,7 +154,10 @@ class SongFragment : Fragment() {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                song.tags?.remove(songTags?.get(viewHolder.adapterPosition))
+                val tag: Tag = songTags[viewHolder.adapterPosition]
+                song.tags?.remove(tag)
+                songTags.remove(tag)
+                getDefaultTags()
                 songViewModel.updateSong(song)
             }
         }

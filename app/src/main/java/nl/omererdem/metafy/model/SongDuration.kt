@@ -36,10 +36,10 @@ class SongDuration(
     fun shortString(): String {
         var string = ""
         if (this.hour > 0) {
-            string += "${this.hour}h "
+            string += "${this.hour}h"
         }
         if (this.minute > 0) {
-            string += "${this.minute}m "
+            string += "${this.minute}m"
         }
         if (this.second > 0) {
             string += "${this.second}s"
@@ -50,13 +50,13 @@ class SongDuration(
     fun longString(): String {
         var string = ""
         if (this.hour > 0) {
-            string += "${this.hour} hours "
+            string += "${this.hour} hours"
         }
         if (string.isNotBlank()) {
             string += ", "
         }
         if (this.minute > 0) {
-            string += "${this.minute} minutes "
+            string += "${this.minute} minutes"
         }
         if (string.isNotBlank()) {
             string += ", "
