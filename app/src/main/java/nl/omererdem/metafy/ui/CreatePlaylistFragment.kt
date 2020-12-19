@@ -59,11 +59,14 @@ class CreatePlaylistFragment : Fragment() {
         btnMinusCreate.setOnClickListener {
             addCombination("-")
         }
-        btnIsCreate.setOnClickListener {
+        btnEqualCreate.setOnClickListener {
             addCombination("=")
         }
         btnCreatePlaylist.setOnClickListener {
             createPlaylist(previewSongs)
+        }
+        btnCombinationBackspace.setOnClickListener {
+            combination.list.removeLast()
         }
     }
 
@@ -86,7 +89,7 @@ class CreatePlaylistFragment : Fragment() {
 
     private fun addCombination(string: String) {
         combination.list.add(string)
-        etCombination.setText(combination.getCombinationString())
+        tvCombination.setText(combination.getCombinationString())
         runBlocking {
             val playlist = combination.getPlaylist(tagViewModel, songViewModel)
             if (playlist != null) {

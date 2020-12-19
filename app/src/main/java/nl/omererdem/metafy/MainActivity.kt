@@ -10,6 +10,7 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.view.*
 import nl.omererdem.metafy.spotify.SpotifyAuthenticator
 import nl.omererdem.metafy.spotify.SpotifyService
 
@@ -28,17 +29,17 @@ class MainActivity : AppCompatActivity() {
         onInit()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
+//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+//        menuInflater.inflate(R.menu.menu_main, menu)
+//        return true
+//    }
+//
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        return when (item.itemId) {
+//            R.id.action_settings -> true
+//            else -> super.onOptionsItemSelected(item)
+//        }
+//    }
 
     private fun onInit() {
         navController = findNavController(R.id.nav_host_fragment)

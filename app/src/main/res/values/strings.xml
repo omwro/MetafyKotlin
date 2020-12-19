@@ -18,4 +18,8 @@
     <string name="createplaylist">Create Playlist</string>
     <string name="preview_playlist">Preview Playlist:</string>
     <string name="search">Search</string>
+    <string name="track_name">Track name</string>
+    <string name="tag_name">Tag name</string>
+    <string name="playlist_name">Playlist name</string>
+    <string name="combination">Combination</string>
 </resources>

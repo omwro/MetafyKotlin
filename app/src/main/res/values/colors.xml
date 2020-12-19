@@ -8,4 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="spotify_green">#1DB954</color>
+    <color name="night_black">#121212</color>
+    <color name="night_grey">#3C3C3C</color>
+    <color name="greyed_out">#b3b3b3</color>
 </resources>

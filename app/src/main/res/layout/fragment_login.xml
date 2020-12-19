@@ -28,13 +28,17 @@
             android:gravity="center"
             android:textSize="20sp"
             android:layout_marginVertical="8dp"/>
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/login_button_text"
+            android:textSize="18sp"
             android:layout_marginVertical="8dp"
-            android:backgroundTint="@color/spotify_green"/>
+            android:paddingVertical="16dp"
+            android:paddingHorizontal="32dp"
+            android:backgroundTint="@color/spotify_green"
+            app:cornerRadius="50dp"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

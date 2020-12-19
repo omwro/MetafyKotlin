@@ -3,12 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.CreatePlaylistFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="16dp"
         android:orientation="vertical">
 
         <TextView
@@ -24,15 +24,31 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="16sp" />
+            android:layout_marginBottom="16dp"
+            android:hint="@string/playlist_name" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etCombination"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginHorizontal="32dp"
-            android:layout_marginBottom="16sp" />
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
+            <TextView
+                android:id="@+id/tvCombination"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:hint="@string/combination" />
+            <Button
+                android:id="@+id/btnCombinationBackspace"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/ic_backspace"
+                android:minWidth="32dp"
+                android:minHeight="32dp" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,22 +71,31 @@
                         android:id="@+id/btnPlusCreate"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
+                        android:layout_gravity="center"
                         android:layout_marginEnd="8dp"
-                        android:text="+" />
+                        android:background="@drawable/ic_add"
+                        android:minWidth="32dp"
+                        android:minHeight="32dp" />
 
                     <Button
                         android:id="@+id/btnMinusCreate"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
+                        android:layout_gravity="center"
                         android:layout_marginEnd="8dp"
-                        android:text="-" />
+                        android:background="@drawable/ic_minus"
+                        android:minWidth="32dp"
+                        android:minHeight="32dp" />
 
                     <Button
-                        android:id="@+id/btnIsCreate"
+                        android:id="@+id/btnEqualCreate"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
+                        android:layout_gravity="center"
                         android:layout_marginEnd="8dp"
-                        android:text="=" />
+                        android:background="@drawable/ic_equal"
+                        android:minWidth="32dp"
+                        android:minHeight="32dp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -94,22 +119,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/preview_playlist"
-            android:textStyle="bold"
-            android:textSize="18sp"/>
+            android:textSize="18sp"
+            android:layout_marginBottom="8dp"
+            android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvCreatePlaylist"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnCreatePlaylist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center|bottom"
+            android:layout_gravity="center"
             android:text="@string/createplaylist"
+            android:textSize="16sp"
             android:layout_marginVertical="8dp"
-            android:backgroundTint="@color/spotify_green"/>
+            android:paddingVertical="8dp"
+            android:paddingHorizontal="16dp"
+            android:backgroundTint="@color/spotify_green"
+            app:cornerRadius="50dp"/>
     </LinearLayout>
 </FrameLayout>

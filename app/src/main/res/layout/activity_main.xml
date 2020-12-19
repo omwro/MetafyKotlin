@@ -15,7 +15,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="@color/spotify_green"
             app:popupTheme="@style/Theme.MetaFy.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -35,7 +35,7 @@
         android:layout_marginEnd="16sp"
         android:layout_marginBottom="72sp"
         android:backgroundTint="@color/spotify_green"
-        android:tint="@color/white"
+        app:tint="@color/white"
         app:srcCompat="@drawable/ic_add"
         android:contentDescription="@string/fab" />
 
@@ -44,8 +44,8 @@
         android:layout_width="match_parent"
         android:layout_height="56sp"
         android:layout_gravity="bottom"
-        android:background="@color/design_default_color_primary_dark"
-        app:itemIconTint="@color/white"
-        app:itemTextColor="@color/white"
+        android:background="@color/night_grey"
+        app:itemIconTint="@color/bottom_nav_color"
+        app:itemTextColor="@color/bottom_nav_color"
         app:menu="@menu/bottom_navigation_menu" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

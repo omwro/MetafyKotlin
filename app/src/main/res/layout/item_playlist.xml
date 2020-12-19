@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cvPlaylist"
-    android:backgroundTint="@android:color/darker_gray"
+    android:backgroundTint="@color/night_black"
     android:layout_width="match_parent"
     android:layout_height="80dp"
     android:layout_gravity="center"
@@ -26,7 +26,6 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:textSize="24sp"
-                android:textColor="@color/white"
                 android:text="@string/placeholder"/>
             <TextView
                 android:id="@+id/tvItemAmount"
@@ -40,4 +39,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/greyed_out"
+        android:layout_gravity="bottom"/>
 </androidx.cardview.widget.CardView>

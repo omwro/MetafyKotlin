@@ -16,11 +16,10 @@
             android:text="@string/library_title"
             android:textSize="28sp"
             android:gravity="center"
-            android:layout_margin="16sp"/>
+            android:layout_marginBottom="16sp"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvLibrary"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="16sp"/>
+            android:layout_height="match_parent"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
