@@ -13,11 +13,11 @@ import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.coroutines.runBlocking
 import nl.omererdem.metafy.R
 import nl.omererdem.metafy.spotifyService
-import nl.omererdem.metafy.utils.SpotifySongAdapter2
+import nl.omererdem.metafy.utils.SpotifySongAdapter
 
 class SearchFragment : Fragment() {
     private var songsFound: ArrayList<Track> = arrayListOf()
-    private val adapter = SpotifySongAdapter2(songsFound)
+    private val adapter = SpotifySongAdapter(songsFound)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

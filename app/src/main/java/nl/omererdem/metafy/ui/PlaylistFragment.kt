@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.fragment_playlist.*
 import nl.omererdem.metafy.R
 import nl.omererdem.metafy.navController
 import nl.omererdem.metafy.spotifyService
-import nl.omererdem.metafy.utils.SpotifySongAdapter
+import nl.omererdem.metafy.utils.SpotifyPlaylistSongAdapter
 import java.util.ArrayList
 
 class PlaylistFragment : Fragment() {
@@ -20,7 +20,7 @@ class PlaylistFragment : Fragment() {
 
     private var songs = arrayListOf<PlaylistTrack>()
 
-    private val songAdapter = SpotifySongAdapter(songs)
+    private val songAdapter = SpotifyPlaylistSongAdapter(songs)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

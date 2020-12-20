@@ -11,10 +11,11 @@ import kotlinx.android.synthetic.main.item_song.view.*
 import nl.omererdem.metafy.R
 import nl.omererdem.metafy.navController
 
-class SpotifySongAdapter2(private val songs: List<Track>) :
-    RecyclerView.Adapter<SpotifySongAdapter2.ViewHolder>() {
+class SpotifyPlaylistSongAdapter(private val songs: ArrayList<PlaylistTrack>) :
+    RecyclerView.Adapter<SpotifyPlaylistSongAdapter.ViewHolder>() {
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun databind(song: Track) {
+        fun databind(playlistTrack: PlaylistTrack) {
+            val song: Track = playlistTrack.track as Track
             itemView.tvItemTitle.text = song.name
             itemView.tvItemArtist.text = song.artists.firstOrNull()?.name
             itemView.setOnClickListener {

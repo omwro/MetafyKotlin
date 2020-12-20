@@ -91,7 +91,7 @@ class CreatePlaylistFragment : Fragment() {
 
     private fun addCombination(string: String) {
         combination.list.add(string)
-        tvCombination.text = combination.getCombinationString()
+        tvCombination.setText(combination.getCombinationString())
         runBlocking {
             val playlist = combination.getPlaylist(tagViewModel, songViewModel)
             if (playlist != null) {
@@ -104,7 +104,7 @@ class CreatePlaylistFragment : Fragment() {
 
     private fun removeCombination() {
         combination.list.removeLast()
-        tvCombination.text = combination.getCombinationString()
+        tvCombination.setText(combination.getCombinationString())
         runBlocking {
             val playlist = combination.getPlaylist(tagViewModel, songViewModel)
             if (playlist != null) {
