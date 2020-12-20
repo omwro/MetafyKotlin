@@ -66,7 +66,9 @@ class CreatePlaylistFragment : Fragment() {
             createPlaylist(previewSongs)
         }
         btnCombinationBackspace.setOnClickListener {
-            combination.list.removeLast()
+            if (combination.list.isNotEmpty()) {
+                removeCombination()
+            }
         }
     }
 
@@ -89,7 +91,20 @@ class CreatePlaylistFragment : Fragment() {
 
     private fun addCombination(string: String) {
         combination.list.add(string)
-        tvCombination.setText(combination.getCombinationString())
+        tvCombination.text = combination.getCombinationString()
+        runBlocking {
+            val playlist = combination.getPlaylist(tagViewModel, songViewModel)
+            if (playlist != null) {
+                previewSongs.clear()
+                previewSongs.addAll(playlist)
+                previewSongAdapter.notifyDataSetChanged()
+            }
+        }
+    }
+
+    private fun removeCombination() {
+        combination.list.removeLast()
+        tvCombination.text = combination.getCombinationString()
         runBlocking {
             val playlist = combination.getPlaylist(tagViewModel, songViewModel)
             if (playlist != null) {
