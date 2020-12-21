@@ -8,19 +8,18 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.adamratzman.spotify.models.PlaylistTrack
 import kotlinx.android.synthetic.main.fragment_playlist.*
 import nl.omererdem.metafy.R
+import nl.omererdem.metafy.model.Song
 import nl.omererdem.metafy.model.SongViewModel
 import nl.omererdem.metafy.navController
 import nl.omererdem.metafy.spotifyService
 import nl.omererdem.metafy.utils.SpotifyPlaylistSongAdapter
-import java.util.ArrayList
 
 class PlaylistFragment : Fragment() {
     private var playlistId: String? = null
 
-    private var songs = arrayListOf<PlaylistTrack>()
+    private var songs = arrayListOf<Song>()
 
     private val songAdapter = SpotifyPlaylistSongAdapter(songs, this)
 

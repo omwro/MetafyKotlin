@@ -28,12 +28,12 @@ import nl.omererdem.metafy.utils.LocalSongAdapter
 class CreatePlaylistFragment : Fragment() {
 
     private var previewSongs = arrayListOf<Song>()
-    private val previewSongAdapter = LocalSongAdapter(previewSongs)
+    private val previewSongAdapter = LocalSongAdapter(previewSongs, this)
 
     private var defaultTags = arrayListOf<Tag>()
     private val tagViewModel: TagViewModel by viewModels()
 
-    private val songViewModel: SongViewModel by viewModels()
+    val songViewModel: SongViewModel by viewModels()
 
     private val combination = Combination(arrayListOf())
 

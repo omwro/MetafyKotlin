@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="16dp"
-            android:hint="@string/playlist_name" />
+            android:hint="@string/playlist_name"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:hint="@string/combination"
-                android:inputType="none"/>
+                android:enabled="false"/>
             <Button
                 android:id="@+id/btnCombinationBackspace"
                 android:layout_width="32dp"

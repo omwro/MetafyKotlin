@@ -97,7 +97,7 @@ class Combination(var list: ArrayList<String>) {
     ): List<Song> {
         firstTagSongs.addAll(secondTagSongs)
         return firstTagSongs.groupBy { it.id }
-            .filter { it.value.size == 1 }
+            .filter { it.value.size > 1 }
             .flatMap { it.value }
     }
 }
