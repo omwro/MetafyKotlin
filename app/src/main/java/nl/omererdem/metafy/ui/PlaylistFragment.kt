@@ -52,13 +52,25 @@ class PlaylistFragment : Fragment() {
     }
 
     private fun getPlaylist() {
-        val playlist = spotifyService?.getUserPlaylist(playlistId.toString())
-        tvPlaylistTitle.text = playlist?.name
+        if (playlistId.toString() == "metafy:mylikedsongs") {
+            tvPlaylistTitle.text = "My Liked Songs"
+        } else {
+            tvPlaylistTitle.text = spotifyService?.getUserPlaylist(playlistId.toString())?.name
+        }
     }
 
     private fun getSongs() {
         songs.clear()
-        songs.addAll(spotifyService?.getPlaylistTracks(playlistId.toString()) as ArrayList<PlaylistTrack>)
+        if (playlistId.toString() == "metafy:mylikedsongs") {
+            spotifyService?.getUserLikedSongs()?.map { Song.createFromSavedTrack(it) }?.let {
+                songs.addAll(it)
+            }
+        } else {
+            spotifyService?.getPlaylistTracks(playlistId.toString())
+                ?.map { Song.createFromPlayListTrack(it) }?.let {
+                songs.addAll(it)
+            }
+        }
         songAdapter.notifyDataSetChanged()
     }
 }

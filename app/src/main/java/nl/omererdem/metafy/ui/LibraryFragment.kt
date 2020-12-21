@@ -9,8 +9,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.adamratzman.spotify.models.SimplePlaylist
+import com.adamratzman.spotify.models.Track
 import kotlinx.android.synthetic.main.fragment_library.*
 import nl.omererdem.metafy.R
+import nl.omererdem.metafy.model.Playlist
 import nl.omererdem.metafy.spotifyService
 import nl.omererdem.metafy.utils.PlaylistAdapter
 
@@ -20,7 +22,7 @@ import nl.omererdem.metafy.utils.PlaylistAdapter
 class LibraryFragment : Fragment() {
 
     // List of the games in the history
-    private var playlists = arrayListOf<SimplePlaylist>()
+    private var playlists = arrayListOf<Playlist>()
 
     // Adapter for the game object
     private val playlistAdapter = PlaylistAdapter(playlists)
@@ -45,7 +47,16 @@ class LibraryFragment : Fragment() {
 
     private fun getPlaylists() {
         playlists.clear()
-        playlists.addAll(spotifyService?.getUserPlaylists() as ArrayList<SimplePlaylist>)
+        playlists.add(
+            Playlist(
+                "metafy:mylikedsongs",
+                "My Liked Songs",
+                spotifyService?.getUserLikedSongs()?.size ?: 0
+            )
+        )
+        spotifyService?.getUserPlaylists()?.map {
+            playlists.add(Playlist(it.id, it.name, it.tracks.total))
+        }
         playlistAdapter.notifyDataSetChanged()
     }
 }

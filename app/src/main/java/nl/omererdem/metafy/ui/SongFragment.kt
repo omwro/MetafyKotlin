@@ -77,13 +77,7 @@ class SongFragment : Fragment() {
             } else {
                 val spotifySong: Track? = spotifyService?.getSong(songId)
                 if (spotifySong != null) {
-                    song = Song(
-                        songId,
-                        spotifySong.name,
-                        getSpotifyArtistsList(spotifySong.artists),
-                        SongDuration.createFromMilliseconds(spotifySong.durationMs),
-                        null
-                    )
+                    song = Song.createFromTrack(spotifySong)
                     songViewModel.insertSong(song)
                     Log.e("NEW SONG", song.toString())
                 } else {
@@ -94,16 +88,6 @@ class SongFragment : Fragment() {
             tvSongArtists.text = getArtistsString(song.artists)
             tvSongDuration.text = song.duration.longString()
         })
-    }
-
-    private fun getSpotifyArtistsList(artists: List<SimpleArtist>?): ArrayList<String> {
-        val list: ArrayList<String> = arrayListOf()
-        if (artists != null) {
-            for (artist in artists) {
-                list.add(artist.name)
-            }
-        }
-        return list
     }
 
     private fun getArtistsString(artists: ArrayList<String>): String {
