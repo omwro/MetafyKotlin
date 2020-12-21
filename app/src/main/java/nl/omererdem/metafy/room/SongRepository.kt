@@ -25,6 +25,10 @@ class SongRepository(context: Context) {
         return songDao.getSongById(songId)
     }
 
+    fun getSongByIdOnce(songId: String): Song? {
+        return songDao.getSongByIdOnce(songId)
+    }
+
     fun insertSong(song: Song) {
         songDao.insertSong(song)
     }

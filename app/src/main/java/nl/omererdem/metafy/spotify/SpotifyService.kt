@@ -42,4 +42,8 @@ class SpotifyService(token: String) {
     fun getSearch(keyword: String): List<Track>? {
         return api.search.search(keyword, SearchApi.SearchType.TRACK).complete().tracks?.items
     }
+
+    fun getUserLikedSongs(): List<Track> {
+        return api.library.getSavedTracks().getAllItems().complete() as List<Track>
+    }
 }

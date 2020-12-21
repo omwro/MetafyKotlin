@@ -7,11 +7,21 @@ import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.RecyclerView
 import com.adamratzman.spotify.models.PlaylistTrack
 import com.adamratzman.spotify.models.Track
+import com.google.android.flexbox.AlignItems
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
+import kotlinx.android.synthetic.main.fragment_song.*
 import kotlinx.android.synthetic.main.item_song.view.*
 import nl.omererdem.metafy.R
+import nl.omererdem.metafy.model.Tag
 import nl.omererdem.metafy.navController
+import nl.omererdem.metafy.ui.PlaylistFragment
 
-class SpotifyPlaylistSongAdapter(private val songs: ArrayList<PlaylistTrack>) :
+class SpotifyPlaylistSongAdapter(
+    private val songs: ArrayList<PlaylistTrack>,
+    private val playlistFragment: PlaylistFragment
+) :
     RecyclerView.Adapter<SpotifyPlaylistSongAdapter.ViewHolder>() {
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun databind(playlistTrack: PlaylistTrack) {
@@ -21,6 +31,31 @@ class SpotifyPlaylistSongAdapter(private val songs: ArrayList<PlaylistTrack>) :
             itemView.setOnClickListener {
                 navController.navigate(R.id.songFragment, bundleOf("songId" to song.id))
             }
+
+            val fragment = this@SpotifyPlaylistSongAdapter.playlistFragment
+
+            val flexboxLayoutManager =
+                FlexboxLayoutManager(fragment.context)
+            flexboxLayoutManager.flexDirection = FlexDirection.ROW
+            flexboxLayoutManager.alignItems = AlignItems.CENTER
+            flexboxLayoutManager.flexWrap = FlexWrap.NOWRAP
+            itemView.rvItemTag.layoutManager = flexboxLayoutManager
+            val tags: ArrayList<Tag> = arrayListOf()
+            val adapter = TagAdapter(tags, false)
+            itemView.rvItemTag.adapter = adapter
+
+            fragment.songViewModel.getSongById(song.id)
+                .observe(fragment.viewLifecycleOwner, { savedSong ->
+                    if (savedSong != null) {
+                        val savedSongtags: ArrayList<Tag>? = savedSong.tags
+                        if (savedSongtags != null) {
+                            tags.clear()
+                            tags.addAll(savedSongtags)
+                            adapter.notifyDataSetChanged()
+                        }
+                    }
+                })
+
         }
     }
 

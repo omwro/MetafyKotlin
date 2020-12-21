@@ -24,6 +24,10 @@ class SongViewModel(application: Application) : AndroidViewModel(application) {
         return repository.getSongById(songId)
     }
 
+    fun getSongByIdOnce(songId: String): Song? {
+        return repository.getSongByIdOnce(songId)
+    }
+
     fun insertSong(song: Song) {
         ioScope.launch { repository.insertSong(song) }
     }

@@ -29,7 +29,7 @@ class SongFragment : Fragment() {
     private lateinit var songId: String
     private var defaultTags = arrayListOf<Tag>()
     private var songTags: ArrayList<Tag> = arrayListOf()
-    private val songTagAdapter = TagAdapter(songTags)
+    private val songTagAdapter = TagAdapter(songTags, true)
     private val tagViewModel: TagViewModel by viewModels()
     private val songViewModel: SongViewModel by viewModels()
 

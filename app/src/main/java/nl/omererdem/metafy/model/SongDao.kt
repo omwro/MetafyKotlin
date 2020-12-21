@@ -14,6 +14,9 @@ interface SongDao {
     @Query("SELECT * FROM songTable WHERE songId = :songId")
     fun getSongById(songId: String): LiveData<Song>
 
+    @Query("SELECT * FROM songTable WHERE songId = :songId")
+    fun getSongByIdOnce(songId: String): Song?
+
     @Insert
     fun insertSong(song: Song)
 

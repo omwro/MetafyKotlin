@@ -21,7 +21,7 @@ import nl.omererdem.metafy.utils.TagAdapter
 
 class PreferenceFragment : Fragment() {
     val tags: ArrayList<Tag> = arrayListOf()
-    val tagAdapter = TagAdapter(tags)
+    val tagAdapter = TagAdapter(tags, true)
     val tagViewModel: TagViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
