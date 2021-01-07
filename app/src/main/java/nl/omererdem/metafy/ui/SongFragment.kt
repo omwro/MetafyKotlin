@@ -54,6 +54,7 @@ class SongFragment : Fragment() {
         getDefaultTags()
     }
 
+    // Use flexbox for the songs
     private fun initView() {
         val flexboxLayoutManager = FlexboxLayoutManager(context)
         flexboxLayoutManager.flexDirection = FlexDirection.ROW
@@ -64,6 +65,7 @@ class SongFragment : Fragment() {
         deleteTag().attachToRecyclerView(rvTagsSong)
     }
 
+    // Get the data, tags and locally create the songs if it does not exist
     private fun getLocalSong() {
         pbLoadingSong.visibility = ProgressBar.VISIBLE
         songViewModel.getSongById(songId).observe(viewLifecycleOwner, { localSong ->
@@ -89,6 +91,7 @@ class SongFragment : Fragment() {
         })
     }
 
+    // Get artists names
     private fun getArtistsString(artists: ArrayList<String>): String {
         var string = ""
         for (artist in artists) {
@@ -100,6 +103,7 @@ class SongFragment : Fragment() {
         return string
     }
 
+    // display all the available tags from Room inside the dropdown
     private fun getDefaultTags() {
         tagViewModel.tags.observe(viewLifecycleOwner, { savedDefaultTags ->
             defaultTags = savedDefaultTags as ArrayList<Tag>
@@ -117,6 +121,7 @@ class SongFragment : Fragment() {
         })
     }
 
+    // Save the tag inside the local song
     private fun saveTag(tag: Tag) {
         if (songTags.any { songTag -> songTag.equals(tag)}) return
         if (song.tags == null) song.tags = arrayListOf(tag)
@@ -125,6 +130,7 @@ class SongFragment : Fragment() {
         songViewModel.updateSong(song)
     }
 
+    // Unlink the tag from the song
     private fun deleteTag(): ItemTouchHelper {
         val callback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
             override fun onMove(

@@ -8,8 +8,10 @@ import nl.omererdem.metafy.model.TagViewModel
 import nl.omererdem.metafy.ui.CreatePlaylistFragment
 
 class Combination(var list: ArrayList<String>) {
+    // the final list of songs after the filter
     var filteredSongs: ArrayList<Song>? = null
 
+    // Get playlist of filtered songs
     suspend fun getPlaylist(tagViewModel: TagViewModel, songViewModel: SongViewModel): List<Song>? =
         withContext(Dispatchers.IO) {
             val savedSongs = songViewModel.getAllSongsOnce()
@@ -19,6 +21,7 @@ class Combination(var list: ArrayList<String>) {
             if (list.isNotEmpty() && list.size % 2 == 1) {
                 var index = 0
 
+                // Check if the values are correctly selected
                 val firstSymbol: String? = getSymbolByName(list[index])
                 val firstTag: Tag? = getTagByName(tagViewModel, list[index])
                 if (firstSymbol == null && firstTag != null) {
@@ -26,6 +29,7 @@ class Combination(var list: ArrayList<String>) {
                     index++
                 }
 
+                // While list has value pairs, add the filter results
                 while (list.size >= (index + 2)) {
                     val symbol: String? = getSymbolByName(list[index])
                     val tag: Tag? = getTagByName(tagViewModel, list[(index + 1)])
@@ -51,19 +55,21 @@ class Combination(var list: ArrayList<String>) {
             return@withContext filteredSongs
         }
 
-    suspend fun isValidCombination(tagViewModel: TagViewModel): Boolean = withContext(Dispatchers.IO) {
-        if (list.isNotEmpty()) {
-            for ((index, item) in list.withIndex()) {
-                if (index % 2 == 0 && getTagByName(tagViewModel, item) == null) {
-                    return@withContext false
-                } else if (index % 2 == 1 && getSymbolByName(item) == null) {
-                    return@withContext false
+    // Check if the combination is valid
+    suspend fun isValidCombination(tagViewModel: TagViewModel): Boolean =
+        withContext(Dispatchers.IO) {
+            if (list.isNotEmpty()) {
+                for ((index, item) in list.withIndex()) {
+                    if (index % 2 == 0 && getTagByName(tagViewModel, item) == null) {
+                        return@withContext false
+                    } else if (index % 2 == 1 && getSymbolByName(item) == null) {
+                        return@withContext false
+                    }
                 }
+                return@withContext true
             }
-            return@withContext true
+            return@withContext false
         }
-        return@withContext false
-    }
 
     fun getCombinationString(): String {
         var combination = ""
@@ -89,6 +95,7 @@ class Combination(var list: ArrayList<String>) {
         }
     }
 
+    // Get list of combined songs while removing duplicates
     private fun getPlusLocalSongs(
         firstTagSongs: ArrayList<Song>,
         secondTagSongs: ArrayList<Song>
@@ -97,6 +104,7 @@ class Combination(var list: ArrayList<String>) {
         return firstTagSongs.distinct()
     }
 
+    // get list of songs while removing the songs from the second tag
     private fun getMinusLocalSongs(
         firstTagSongs: ArrayList<Song>,
         secondTagSongs: ArrayList<Song>
@@ -105,6 +113,7 @@ class Combination(var list: ArrayList<String>) {
         return firstTagSongs
     }
 
+    // get list of combined song with equal tags
     private fun getEqualLocalSongs(
         firstTagSongs: ArrayList<Song>,
         secondTagSongs: ArrayList<Song>

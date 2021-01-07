@@ -32,6 +32,7 @@ class SpotifyPlaylistSongAdapter(
 
             val fragment = this@SpotifyPlaylistSongAdapter.playlistFragment
 
+            // use flexbox for the tags
             val flexboxLayoutManager =
                 FlexboxLayoutManager(fragment.context)
             flexboxLayoutManager.flexDirection = FlexDirection.ROW
@@ -42,6 +43,7 @@ class SpotifyPlaylistSongAdapter(
             val adapter = TagAdapter(tags, false)
             itemView.rvItemTag.adapter = adapter
 
+            // get tags from localsongs if exist
             fragment.songViewModel.getSongById(song.songId)
                 .observe(fragment.viewLifecycleOwner, { savedSong ->
                     if (savedSong != null) {

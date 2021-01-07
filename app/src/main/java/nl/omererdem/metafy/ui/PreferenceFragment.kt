@@ -35,6 +35,7 @@ class PreferenceFragment : Fragment() {
         getTags()
     }
 
+    // Use flexbox for the tags
     private fun initView() {
         val flexboxLayoutManager = FlexboxLayoutManager(context)
         flexboxLayoutManager.flexDirection = FlexDirection.ROW
@@ -48,12 +49,13 @@ class PreferenceFragment : Fragment() {
         deleteTag().attachToRecyclerView(rvTagsPreference)
     }
 
+    // get all saved tags from Room
     private fun getTags() {
         tagViewModel.tags.observe(viewLifecycleOwner, {
             savedTags ->
             tags.clear()
             tags.addAll(savedTags)
-            tags.sortBy { it?.name }
+            tags.sortBy { it.name }
             tagAdapter.notifyDataSetChanged()
         })
     }
@@ -78,7 +80,7 @@ class PreferenceFragment : Fragment() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
-                tags[position]?.let { tagViewModel.deleteTag(it) }
+                tags[position].let { tagViewModel.deleteTag(it) }
             }
         }
         return ItemTouchHelper(callback)

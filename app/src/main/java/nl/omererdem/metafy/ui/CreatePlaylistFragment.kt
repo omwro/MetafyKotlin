@@ -76,6 +76,7 @@ class CreatePlaylistFragment : Fragment() {
     }
 
     private fun getDefaultTags() {
+        // Adapter for the dropdown menu
         tagViewModel.tags.observe(viewLifecycleOwner, { savedDefaultTags ->
             defaultTags = savedDefaultTags as ArrayList<Tag>
             menuTagsCreate.setAdapter(
@@ -85,6 +86,8 @@ class CreatePlaylistFragment : Fragment() {
                     defaultTags
                 )
             )
+
+            // Add tag to combination on click
             menuTagsCreate.onItemClickListener =
                 AdapterView.OnItemClickListener { parent, _, position, _ ->
                     addCombination((parent?.getItemAtPosition(position) as Tag).name)
@@ -92,9 +95,11 @@ class CreatePlaylistFragment : Fragment() {
         })
     }
 
+    // Add a combination to the list and update the frontend
     private fun addCombination(string: String) {
         combination.list.add(string)
         runBlocking {
+            // Checks if the combination is valid
             if (combination.isValidCombination(tagViewModel)) {
                 tvCombination.setText(combination.getCombinationString())
                 CoroutineScope(Dispatchers.IO).launch {
@@ -108,13 +113,15 @@ class CreatePlaylistFragment : Fragment() {
                     }
                 }
             } else {
+                // If the combination is invalid, it removes the last entry and shows an error toast
                 combination.list.removeLast()
-                Toast.makeText(context, "This combination is not allowed", Toast.LENGTH_SHORT)
+                Toast.makeText(context, resources.getString(R.string.combination_not_allowed), Toast.LENGTH_SHORT)
                     .show()
             }
         }
     }
 
+    // remove the last entry in the combination list
     fun removeCombination() {
         combination.list.removeLast()
         tvCombination.setText(combination.getCombinationString())
@@ -134,6 +141,7 @@ class CreatePlaylistFragment : Fragment() {
         }
     }
 
+    // Create the final playlist and upload it to spotify
     private fun createPlaylist(localSongs: List<Song>) {
         CoroutineScope(Dispatchers.IO).launch {
             val songIdStrings = getSongIdStringFromList(localSongs)
@@ -150,6 +158,7 @@ class CreatePlaylistFragment : Fragment() {
         }
     }
 
+    // Create the song id query for inserting songs into a playlist
     private fun getSongIdStringFromList(songs: List<Song>): ArrayList<String> {
         val list: ArrayList<String> = arrayListOf()
         for (song in songs) {

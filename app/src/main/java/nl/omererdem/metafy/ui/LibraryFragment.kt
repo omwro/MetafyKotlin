@@ -50,13 +50,15 @@ class LibraryFragment : Fragment() {
         playlists.clear()
         pbLoadingLibrary.visibility = ProgressBar.VISIBLE
         CoroutineScope(Dispatchers.IO).launch {
+            // Get my liked songs playlist
             playlists.add(
                 Playlist(
-                    "metafy:mylikedsongs",
-                    "My Liked Songs",
+                    MY_LIKED_SONGS_PLAYLIST_ID,
+                    resources.getString(R.string.my_liked_songs),
                     spotifyService?.getUserLikedSongs()?.size ?: 0
                 )
             )
+            // Get personal and followed playlists
             spotifyService?.getUserPlaylists()?.map {
                 playlists.add(Playlist(it.id, it.name, it.tracks.total))
             }

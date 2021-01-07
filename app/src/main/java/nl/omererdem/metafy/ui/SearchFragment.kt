@@ -38,6 +38,7 @@ class SearchFragment : Fragment() {
     private fun initView() {
         rvSearch.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         rvSearch.adapter = adapter
+        // Search songs from the catalog on text change
         etSearch.addTextChangedListener {
             pbLoadingSearch.visibility = ProgressBar.VISIBLE
             CoroutineScope(Dispatchers.IO).launch {

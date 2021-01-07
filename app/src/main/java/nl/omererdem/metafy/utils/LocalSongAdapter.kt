@@ -31,6 +31,7 @@ class LocalSongAdapter(
 
             val fragment = this@LocalSongAdapter.createPlaylistFragment
 
+            // use flexbox for the tags
             val flexboxLayoutManager =
                 FlexboxLayoutManager(fragment.context)
             flexboxLayoutManager.flexDirection = FlexDirection.ROW
@@ -41,6 +42,7 @@ class LocalSongAdapter(
             val adapter = TagAdapter(tags, false)
             itemView.rvItemTag.adapter = adapter
 
+            // get tags from localsongs if exist
             fragment.songViewModel.getSongById(song.songId)
                 .observe(fragment.viewLifecycleOwner, { savedSong ->
                     if (savedSong != null) {

@@ -20,6 +20,8 @@ import nl.omererdem.metafy.navController
 import nl.omererdem.metafy.spotifyService
 import nl.omererdem.metafy.utils.SpotifyPlaylistSongAdapter
 
+val MY_LIKED_SONGS_PLAYLIST_ID = "metafy:mylikedsongs"
+
 class PlaylistFragment : Fragment() {
     private var playlistId: String? = null
 
@@ -55,8 +57,8 @@ class PlaylistFragment : Fragment() {
     }
 
     private fun getPlaylist() {
-        if (playlistId.toString() == "metafy:mylikedsongs") {
-            tvPlaylistTitle.text = "My Liked Songs"
+        if (playlistId.toString() == MY_LIKED_SONGS_PLAYLIST_ID) {
+            tvPlaylistTitle.text = resources.getString(R.string.my_liked_songs)
         } else {
             CoroutineScope(Dispatchers.IO).launch {
             val playlistTitle = spotifyService?.getUserPlaylist(playlistId.toString())?.name
@@ -71,7 +73,7 @@ class PlaylistFragment : Fragment() {
         songs.clear()
         pbLoadingPlaylist.visibility = ProgressBar.VISIBLE
         CoroutineScope(Dispatchers.IO).launch {
-            if (playlistId.toString() == "metafy:mylikedsongs") {
+            if (playlistId.toString() == MY_LIKED_SONGS_PLAYLIST_ID) {
                 spotifyService?.getUserLikedSongs()?.map { Song.createFromSavedTrack(it) }?.let {
                     songs.addAll(it)
                 }

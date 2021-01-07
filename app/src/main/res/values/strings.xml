@@ -22,4 +22,6 @@
     <string name="tag_name">Tag name</string>
     <string name="playlist_name">Playlist name</string>
     <string name="combination">Combination</string>
+    <string name="combination_not_allowed">This combination is not allowed</string>
+    <string name="my_liked_songs">My Liked Songs</string>
 </resources>
