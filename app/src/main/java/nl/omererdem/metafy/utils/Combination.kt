@@ -1,11 +1,11 @@
 package nl.omererdem.metafy.utils
 
-import android.util.Log
 import kotlinx.coroutines.*
 import nl.omererdem.metafy.model.Song
 import nl.omererdem.metafy.model.SongViewModel
 import nl.omererdem.metafy.model.Tag
 import nl.omererdem.metafy.model.TagViewModel
+import nl.omererdem.metafy.ui.CreatePlaylistFragment
 
 class Combination(var list: ArrayList<String>) {
     var filteredSongs: ArrayList<Song>? = null
@@ -50,6 +50,20 @@ class Combination(var list: ArrayList<String>) {
             }
             return@withContext filteredSongs
         }
+
+    suspend fun isValidCombination(tagViewModel: TagViewModel): Boolean = withContext(Dispatchers.IO) {
+        if (list.isNotEmpty()) {
+            for ((index, item) in list.withIndex()) {
+                if (index % 2 == 0 && getTagByName(tagViewModel, item) == null) {
+                    return@withContext false
+                } else if (index % 2 == 1 && getSymbolByName(item) == null) {
+                    return@withContext false
+                }
+            }
+            return@withContext true
+        }
+        return@withContext false
+    }
 
     fun getCombinationString(): String {
         var combination = ""

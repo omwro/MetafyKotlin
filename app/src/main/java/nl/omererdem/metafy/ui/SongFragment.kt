@@ -1,17 +1,16 @@
 package nl.omererdem.metafy.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.adamratzman.spotify.models.SimpleArtist
 import com.adamratzman.spotify.models.Track
 import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexDirection
@@ -66,6 +65,7 @@ class SongFragment : Fragment() {
     }
 
     private fun getLocalSong() {
+        pbLoadingSong.visibility = ProgressBar.VISIBLE
         songViewModel.getSongById(songId).observe(viewLifecycleOwner, { localSong ->
             if (localSong != null) {
                 song = localSong
@@ -73,17 +73,16 @@ class SongFragment : Fragment() {
                 song.tags?.let { songTags.addAll(it) }
                 songTags.sortBy { it.name }
                 songTagAdapter.notifyDataSetChanged()
-                Log.e("SONG", song.toString())
             } else {
                 val spotifySong: Track? = spotifyService?.getSong(songId)
                 if (spotifySong != null) {
                     song = Song.createFromTrack(spotifySong)
                     songViewModel.insertSong(song)
-                    Log.e("NEW SONG", song.toString())
                 } else {
                     navController.popBackStack()
                 }
             }
+            pbLoadingSong.visibility = ProgressBar.INVISIBLE
             tvSongName.text = song.name
             tvSongArtists.text = getArtistsString(song.artists)
             tvSongDuration.text = song.duration.longString()
@@ -124,7 +123,6 @@ class SongFragment : Fragment() {
         else song.tags?.add(tag)
         songTags.add(tag)
         songViewModel.updateSong(song)
-        Log.e("SONG AFTER SAVE", song.toString())
     }
 
     private fun deleteTag(): ItemTouchHelper {

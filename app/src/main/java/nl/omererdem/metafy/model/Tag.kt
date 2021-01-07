@@ -11,7 +11,7 @@ class Tag(
     var id: Long? = null
 ) {
     override fun toString(): String {
-        return "Tag(name='$name', id=$id)"
+        return name
     }
 
     fun equals(other: Tag): Boolean {

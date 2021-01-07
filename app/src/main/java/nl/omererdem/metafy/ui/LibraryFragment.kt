@@ -1,16 +1,17 @@
 package nl.omererdem.metafy.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.adamratzman.spotify.models.SimplePlaylist
-import com.adamratzman.spotify.models.Track
 import kotlinx.android.synthetic.main.fragment_library.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import nl.omererdem.metafy.R
 import nl.omererdem.metafy.model.Playlist
 import nl.omererdem.metafy.spotifyService
@@ -47,16 +48,23 @@ class LibraryFragment : Fragment() {
 
     private fun getPlaylists() {
         playlists.clear()
-        playlists.add(
-            Playlist(
-                "metafy:mylikedsongs",
-                "My Liked Songs",
-                spotifyService?.getUserLikedSongs()?.size ?: 0
+        pbLoadingLibrary.visibility = ProgressBar.VISIBLE
+        CoroutineScope(Dispatchers.IO).launch {
+            playlists.add(
+                Playlist(
+                    "metafy:mylikedsongs",
+                    "My Liked Songs",
+                    spotifyService?.getUserLikedSongs()?.size ?: 0
+                )
             )
-        )
-        spotifyService?.getUserPlaylists()?.map {
-            playlists.add(Playlist(it.id, it.name, it.tracks.total))
+            spotifyService?.getUserPlaylists()?.map {
+                playlists.add(Playlist(it.id, it.name, it.tracks.total))
+            }
+
+            CoroutineScope(Dispatchers.Main).launch {
+                playlistAdapter.notifyDataSetChanged()
+                pbLoadingLibrary.visibility = ProgressBar.INVISIBLE
+            }
         }
-        playlistAdapter.notifyDataSetChanged()
     }
 }

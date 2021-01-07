@@ -22,4 +22,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/pbLoadingLibrary"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:indeterminateTint="@color/spotify_green"
+        android:indeterminate="true"
+        android:visibility="invisible"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

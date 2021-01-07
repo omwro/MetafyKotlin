@@ -1,7 +1,6 @@
 package nl.omererdem.metafy.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -56,7 +55,6 @@ class PreferenceFragment : Fragment() {
             tags.addAll(savedTags)
             tags.sortBy { it?.name }
             tagAdapter.notifyDataSetChanged()
-            Log.e("SAVED TAGS", savedTags.toString())
         })
     }
 

@@ -5,10 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_playlist.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import nl.omererdem.metafy.R
 import nl.omererdem.metafy.model.Song
 import nl.omererdem.metafy.model.SongViewModel
@@ -54,22 +58,33 @@ class PlaylistFragment : Fragment() {
         if (playlistId.toString() == "metafy:mylikedsongs") {
             tvPlaylistTitle.text = "My Liked Songs"
         } else {
-            tvPlaylistTitle.text = spotifyService?.getUserPlaylist(playlistId.toString())?.name
+            CoroutineScope(Dispatchers.IO).launch {
+            val playlistTitle = spotifyService?.getUserPlaylist(playlistId.toString())?.name
+                CoroutineScope(Dispatchers.Main).launch {
+                    tvPlaylistTitle.text = playlistTitle
+                }
+            }
         }
     }
 
     private fun getSongs() {
         songs.clear()
-        if (playlistId.toString() == "metafy:mylikedsongs") {
-            spotifyService?.getUserLikedSongs()?.map { Song.createFromSavedTrack(it) }?.let {
-                songs.addAll(it)
+        pbLoadingPlaylist.visibility = ProgressBar.VISIBLE
+        CoroutineScope(Dispatchers.IO).launch {
+            if (playlistId.toString() == "metafy:mylikedsongs") {
+                spotifyService?.getUserLikedSongs()?.map { Song.createFromSavedTrack(it) }?.let {
+                    songs.addAll(it)
+                }
+            } else {
+                spotifyService?.getPlaylistTracks(playlistId.toString())
+                    ?.map { Song.createFromPlayListTrack(it) }?.let {
+                        songs.addAll(it)
+                    }
             }
-        } else {
-            spotifyService?.getPlaylistTracks(playlistId.toString())
-                ?.map { Song.createFromPlayListTrack(it) }?.let {
-                songs.addAll(it)
+            CoroutineScope(Dispatchers.Main).launch {
+                songAdapter.notifyDataSetChanged()
+                pbLoadingPlaylist.visibility = ProgressBar.INVISIBLE
             }
         }
-        songAdapter.notifyDataSetChanged()
     }
 }

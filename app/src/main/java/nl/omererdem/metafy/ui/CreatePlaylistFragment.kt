@@ -1,19 +1,22 @@
 package nl.omererdem.metafy.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.adamratzman.spotify.models.Playlist
 import kotlinx.android.synthetic.main.fragment_create_playlist.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import nl.omererdem.metafy.R
 import nl.omererdem.metafy.model.Song
@@ -91,37 +94,59 @@ class CreatePlaylistFragment : Fragment() {
 
     private fun addCombination(string: String) {
         combination.list.add(string)
-        tvCombination.setText(combination.getCombinationString())
         runBlocking {
-            val playlist = combination.getPlaylist(tagViewModel, songViewModel)
-            if (playlist != null) {
-                previewSongs.clear()
-                previewSongs.addAll(playlist)
-                previewSongAdapter.notifyDataSetChanged()
+            if (combination.isValidCombination(tagViewModel)) {
+                tvCombination.setText(combination.getCombinationString())
+                CoroutineScope(Dispatchers.IO).launch {
+                    val playlist = combination.getPlaylist(tagViewModel, songViewModel)
+                    if (playlist != null) {
+                        CoroutineScope(Dispatchers.Main).launch {
+                            previewSongs.clear()
+                            previewSongs.addAll(playlist)
+                            previewSongAdapter.notifyDataSetChanged()
+                        }
+                    }
+                }
+            } else {
+                combination.list.removeLast()
+                Toast.makeText(context, "This combination is not allowed", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
     }
 
-    private fun removeCombination() {
+    fun removeCombination() {
         combination.list.removeLast()
         tvCombination.setText(combination.getCombinationString())
-        runBlocking {
+        CoroutineScope(Dispatchers.IO).launch {
             val playlist = combination.getPlaylist(tagViewModel, songViewModel)
-            if (playlist != null) {
-                previewSongs.clear()
-                previewSongs.addAll(playlist)
-                previewSongAdapter.notifyDataSetChanged()
+            CoroutineScope(Dispatchers.Main).launch {
+                if (combination.list.isEmpty()) {
+                    previewSongs.clear()
+                    previewSongAdapter.notifyDataSetChanged()
+                }
+                else if (playlist != null) {
+                    previewSongs.clear()
+                    previewSongs.addAll(playlist)
+                    previewSongAdapter.notifyDataSetChanged()
+                }
             }
         }
     }
 
     private fun createPlaylist(localSongs: List<Song>) {
-        val songIdStrings = getSongIdStringFromList(localSongs)
-        val playlist: Playlist? =
-            spotifyService?.createPlaylist(etPlaylistName.text.toString(), songIdStrings)
-        if (playlist != null) {
-            Log.e("NEW PLAYLIST", playlist.toString())
-            navController.navigate(R.id.playlistFragment, bundleOf("playlistId" to playlist.id))
+        CoroutineScope(Dispatchers.IO).launch {
+            val songIdStrings = getSongIdStringFromList(localSongs)
+            val playlist: Playlist? =
+                spotifyService?.createPlaylist(etPlaylistName.text.toString(), songIdStrings)
+            if (playlist != null) {
+                CoroutineScope(Dispatchers.Main).launch {
+                    navController.navigate(
+                        R.id.playlistFragment,
+                        bundleOf("playlistId" to playlist.id)
+                    )
+                }
+            }
         }
     }
 
